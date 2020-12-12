@@ -1,4 +1,4 @@
-﻿// NativeUI IV Example script for version 0.4.
+// NativeUI IV Example script for version 0.5.
 
 using System;
 using System.Drawing;
@@ -9,39 +9,42 @@ using NativeUI;
 
 namespace NativeUITest
 {
-    public class Example : Script
+    public class Class1 : Script
     {
 
-        private NativeUI.Menu uiMenu1; // Main menu
+        private UIMenu uiMenu1; // Main menu
+        private UIMenu uiMenu2; // Second menu (Test menu for the nested menu)
 
         // Items
-        private NativeUI.UI.UIMenuItem uiMenuItem1;
-        private NativeUI.UI.UIMenuItem uiMenuItem2;
-        private NativeUI.UI.UIMenuItem uiMenuItem3;
-        private NativeUI.UI.UIMenuItem uiMenuItemWithImage4;
+        private UI.UIMenuItem uiMenuItem1;
+        private UI.UIMenuItem uiMenuItem2;
+        private UI.UIMenuItem uiMenuItem3;
+        private UI.UIMenuItem uiMenuItemWithImage4;
+        private UI.UIMenuItem uiMenuItem5;
 
-        private NativeUI.UI.UIMenuCheckboxItem uIMenuCheckboxItem1;
-        private NativeUI.UI.UIMenuCheckboxItem uIMenuCheckboxItem2;
-        private NativeUI.UI.UIMenuCheckboxItem uIMenuCheckboxItem3;
-        private NativeUI.UI.UIMenuCheckboxItem uIMenuCheckboxItem4;
+        private UI.UIMenuCheckboxItem uIMenuCheckboxItem1;
+        private UI.UIMenuCheckboxItem uIMenuCheckboxItem2;
+        private UI.UIMenuCheckboxItem uIMenuCheckboxItem3;
+        private UI.UIMenuCheckboxItem uIMenuCheckboxItem4;
 
-        private NativeUI.UI.UIMenuListItem uiListItem1;
+        private UI.UIMenuListItem uiListItem1;
 
-        public Example()
+        public Class1()
         {
             // Set settings for all menus
-            NativeUI.Menu.Options.UpKey = Keys.Up;
-            NativeUI.Menu.Options.DownKey = Keys.Down;
-            NativeUI.Menu.Options.LeftKey = Keys.Left;
-            NativeUI.Menu.Options.RightKey = Keys.Right;
-            NativeUI.Menu.Options.AcceptKey = Keys.Enter;
-            NativeUI.Menu.Options.disablePhoneWhenMenuIsOpened = true;
-            NativeUI.Menu.Options.enableControllerSupport = true;
-            NativeUI.Menu.Options.enableMenuSounds = true;
+            UIMenu.Options.UpKey = Keys.Up;
+            UIMenu.Options.DownKey = Keys.Down;
+            UIMenu.Options.LeftKey = Keys.Left;
+            UIMenu.Options.RightKey = Keys.Right;
+            UIMenu.Options.AcceptKey = Keys.Enter;
+            UIMenu.Options.disablePhoneWhenMenuIsOpened = true;
+            UIMenu.Options.enableControllerSupport = true;
+            UIMenu.Options.enableMenuSounds = true;
 
             #region Menu1
             // Create a new menu
-            uiMenu1 = new NativeUI.Menu("NativeUI IV", "NATIVEUI IV SHOWCASE");
+            uiMenu1 = new UIMenu("NativeUI IV", "NATIVEUI IV SHOWCASE");
+            uiMenu2 = new UIMenu("NestedMenu", "Only a test menu.");
 
             // Create default items
             uiMenuItem1 = new UI.UIMenuItem("TestItem1", "I'm a button", "You can click on me!", true);
@@ -50,7 +53,7 @@ namespace NativeUITest
             uiMenuItem2.OnClick += UiMenuItem2_OnClick; // If item gets pressed.
             uiMenuItem3 = new UI.UIMenuItem("TestItem3", "Showcase button", "This is a long text. But wait, it can get even longer! It doesn't stop getting longer! Send help please! Quick! ...", true);
 
-            // Create default button with an icon
+            // Create default item with an icon
             uiMenuItemWithImage4 = new UI.UIMenuItem("TestItem4", "More information...", "This is a default menu item just with an icon!", true);
             uiMenuItemWithImage4.DefaultIcon = new Texture(Properties.Resources.InfoSymbolDefault); // The icon that shows if the item is not selected.
             uiMenuItemWithImage4.SelectedIcon = new Texture(Properties.Resources.InfoSymbolSelected); // The icon that shows if the item is selected.
@@ -59,6 +62,10 @@ namespace NativeUITest
             uiMenuItemWithImage4.IconSize = new SizeF(32f, 32f); // The size of your icon. This is very important! (Maximum recommended size for your icon(s): 32x32)
             // uiMenuItemWithImage4.IconOffset(0f, 0f); // If your icon size is not 32x32 then you might have to adjust the offset a bit.
             uiMenuItemWithImage4.DrawIcon = true; // Allows the item to draw your icon
+
+            // Create default item with a nested menu.
+            uiMenuItem5 = new UI.UIMenuItem("TestItem5", "Show another menu...", "This shows the nested menu set for this item.", true);
+            uiMenuItem5.NestedMenu = uiMenu2;
 
             // Create checkbox items
             uIMenuCheckboxItem1 = new UI.UIMenuCheckboxItem("TestCheckbox1", "I'm a checked checkbox", "You can also uncheck me if you want.", true, true);
@@ -87,6 +94,7 @@ namespace NativeUITest
             uiMenu1.AddItem(uiMenuItem3);
             uiMenu1.AddItem(uiListItem1);
             uiMenu1.AddItem(uiMenuItemWithImage4);
+            uiMenu1.AddItem(uiMenuItem5);
             #endregion
 
             // Scripts stuff...
@@ -122,24 +130,24 @@ namespace NativeUITest
  
         private void Class1_Tick(object sender, EventArgs e)
         {
-            NativeUI.Menu.ProcessController(); // Allows you to use a controller to navigate through the menu. (Make sure that 'enableControllerSupport' is enabled)
+            UIMenu.ProcessController(); // Allows you to use a controller to navigate through the menu. (Make sure that 'enableControllerSupport' is enabled)
         }
         private void Class1_PerFrameDrawing(object sender, GraphicsEventArgs e)
         {
-            NativeUI.Menu.ProcessDrawing(e); // Very important! This is used to draw the hole menu.
+            UIMenu.ProcessDrawing(e); // Very important! This is used to draw the hole menu.
         }
         private void Class1_KeyDown(object sender, GTA.KeyEventArgs e)
         {
-            NativeUI.Menu.ProcessKeyPress(e); // Also very important! This is used to navigate through the menu with a keyboard.
+            UIMenu.ProcessKeyPress(e); // Also very important! This is used to navigate through the menu with a keyboard.
             if (e.Key == Keys.G) // If Key 'G' is pressed, open or close the menu.
             {
-                if (NativeUI.Menu.IsAnyMenuOpen()) // Check if any menu is opened right now.
+                if (UIMenu.IsAnyMenuOpen()) // Check if any menu is opened right now.
                 {
-                    NativeUI.Menu.HideAllMenus(); // If true then hide all menus.
+                    UIMenu.HideAllMenus(); // If true then hide all menus.
                 }
                 else
                 {
-                    NativeUI.Menu.Show(uiMenu1); // If false then show main menu.
+                    UIMenu.Show(uiMenu1); // If false then show main menu.
                 }
             }
         }
