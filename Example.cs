@@ -1,4 +1,4 @@
-// NativeUI IV Example script for version 0.5.
+// NativeUI IV Example script for version 0.7.
 
 using System;
 using System.Drawing;
@@ -7,11 +7,14 @@ using System.Windows.Forms;
 using GTA;
 using NativeUI;
 
-namespace NativeUITest
-{
-    public class Class1 : Script
-    {
+namespace NativeUITest {
+    public class Class1 : Script {
 
+        #region Other
+        private Image testGif;
+        #endregion
+
+        #region NativeUI
         private UIMenu uiMenu1; // Main menu
         private UIMenu uiMenu2; // Second menu (Test menu for the nested menu)
 
@@ -28,9 +31,13 @@ namespace NativeUITest
         private UI.UIMenuCheckboxItem uIMenuCheckboxItem4;
 
         private UI.UIMenuListItem uiListItem1;
+        #endregion
 
         public Class1()
         {
+            // Load test gif - Replace path with your gif file.
+            testGif = Image.FromFile(Game.InstallFolder + "\\scripts\\NativeUITest\\testGif.gif");
+
             // Set settings for all menus
             UIMenu.Options.UpKey = Keys.Up;
             UIMenu.Options.DownKey = Keys.Down;
@@ -40,10 +47,11 @@ namespace NativeUITest
             UIMenu.Options.disablePhoneWhenMenuIsOpened = true;
             UIMenu.Options.enableControllerSupport = true;
             UIMenu.Options.enableMenuSounds = true;
+            UIMenu.Options.AnimatedBannerFrameRate = 120;
 
             #region Menu1
             // Create a new menu
-            uiMenu1 = new UIMenu("NativeUI IV", "NATIVEUI IV SHOWCASE");
+            uiMenu1 = new UIMenu("NativeUI IV", "NATIVEUI IV SHOWCASE", testGif);
             uiMenu2 = new UIMenu("NestedMenu", "Only a test menu.");
 
             // Create default items
