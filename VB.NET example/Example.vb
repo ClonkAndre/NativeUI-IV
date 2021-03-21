@@ -32,7 +32,7 @@ Public Class Example : Inherits Script
     Private uiListItem1 As UI.UIMenuListItem
 #End Region
 
-    Public Sub Example()
+    Public Sub New()
         ' Load test gif - Replace path with your gif file.
         testGif = Image.FromFile(Game.InstallFolder + "\\scripts\\NativeUITest\\testGif.gif")
 
