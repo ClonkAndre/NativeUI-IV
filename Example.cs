@@ -8,7 +8,7 @@ using GTA;
 using NativeUI;
 
 namespace NativeUITest {
-    public class Class1 : Script {
+    public class Example : Script {
 
         #region Other
         private Image testGif;
@@ -33,7 +33,7 @@ namespace NativeUITest {
         private UI.UIMenuListItem uiListItem1;
         #endregion
 
-        public Class1()
+        public Example()
         {
             // Load test gif - Replace path with your gif file.
             testGif = Image.FromFile(Game.InstallFolder + "\\scripts\\NativeUITest\\testGif.gif");
